@@ -6,6 +6,7 @@ import random
 pygame.init()
 vec = pygame.math.Vector2
 #dskfdkf
+#ioann
 HEIGHT = 450
 WIDTH = 400
 ACC = 0.5
