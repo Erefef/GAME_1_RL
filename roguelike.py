@@ -14,18 +14,18 @@ tileData = [
             [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
             [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
             [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
+            ['D','W','W','W','W','W','W','W','D','W','W','W','W','W','W','W'],
             [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
             [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
             [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
             [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
             [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ','W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ','W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ','W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ','W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ','W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+            [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','W'],
+            [' ',' ',' ',' ','W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','W'],
+            [' ',' ',' ',' ','W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','W'],
+            [' ',' ',' ',' ','W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','W'],
+            [' ',' ',' ',' ','W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','W'],
+            [' ',' ',' ',' ','W',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','W'],
             ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
         ]
 decorationData = [
@@ -38,12 +38,12 @@ decorationData = [
             [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
             [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
             [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-            [' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+            [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c'],
+            [' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c'],
+            [' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c'],
+            [' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c'],
+            [' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c'],
+            [' ',' ',' ',' ','c',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','c'],
             ['c','c','c','c','c','c','c','c','c','c','c','c','c','c','c','c'],
         ]
 
@@ -53,19 +53,25 @@ level.setAllTiles(tileData)
 level.setAllDecorations(decorationData)
 
 def loadTextures():
-    global playerTextures, wallTextures, ceilingTextures, floorTextures
+    global playerTextures, wallTextures, ceilingTextures, floorTextures, doorTextures
 
     playerTextures = loadCharacterSpritesheet('assets/' + playerType + '.png', 32, 32, 10, 10, xScale=gameScale, yScale=gameScale, colorkey=-1)
     wallTextures = loadSpritesheet('assets/wall.png', 16, 32, xScale=gameScale, yScale=gameScale)
     ceilingTextures = loadSpritesheet('assets/ceiling.png', 16, 16, xScale=gameScale, yScale=gameScale)
     floorTextures = loadSpritesheet('assets/floor.png', 16, 16, xScale=gameScale, yScale=gameScale)
+    doorTextures = loadSpritesheet('assets/Dver.png',16,32, xScale=gameScale, yScale=gameScale)
 
 def loadLevel(tileData, decorationData, outputLevel):
     for y in range(0, 16):
         for x in range(0, 16):
+
             if tileData[y][x] == 'W':
                 tile = Tile('wall', False)
                 tile.image = choice(wallTextures)
+                tile.offsetY = -16 * gameScale
+            elif tileData[y][x] == 'D':
+                tile = Tile('Dver', False)
+                tile.image = choice(doorTextures)
                 tile.offsetY = -16 * gameScale
             elif tileData[y][x] == 'c':
                 tile = Tile('ceiling', True)
@@ -121,6 +127,9 @@ def main():
         if keys[K_z]:
             player.isCasting = True
             animationIndex = 0
+
+
+
 
         for event in pygame.event.get():
             if event.type == QUIT:
